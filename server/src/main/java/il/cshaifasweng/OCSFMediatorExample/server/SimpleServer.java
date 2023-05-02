@@ -52,7 +52,7 @@ public class SimpleServer extends AbstractServer {
 				client.sendToClient(message);
 			}
 			else if(request.startsWith("send Submitters")) {
-				message.setMessage("oren, matan");
+				message.setMessage("orenn, matan");
 				client.sendToClient(message);
 			}
 			else if (request.equals("what’s the time?")) {
