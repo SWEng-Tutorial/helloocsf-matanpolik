@@ -6,6 +6,8 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.SubscribedClient;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class SimpleServer extends AbstractServer {
@@ -52,20 +54,28 @@ public class SimpleServer extends AbstractServer {
 				client.sendToClient(message);
 			}
 			else if(request.startsWith("send Submitters")) {
-				message.setMessage("orenn, matan");
+				message.setMessage("oren, matan");
 				client.sendToClient(message);
 			}
 			else if (request.equals("what’s the time?")) {
 				//add code here to send the time to client
-				//message.setMessage(message.getTimeStamp());
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+				LocalDateTime time = message.getTimeStamp();
+				message.setMessage(time.format(dtf));
 				client.sendToClient(message);
-
 			}
-			else if (request.startsWith("multiply")){
+			else if (request.startsWith("multiply")) {
 				//add code here to multiply 2 numbers received in the message and send result back to client
 				//(use substring method as shown above)
 				//message format: "multiply n*m"
-				System.out.println("oren");
+				String new_msg = request.toString().substring(8).replaceAll("\\s+", "");
+				int tab = new_msg.indexOf("*");
+				int n = Integer.parseInt(new_msg.substring(0, tab));
+				int m = Integer.parseInt(new_msg.substring(tab + 1));
+				int result = n * m;
+				message.setMessage(n + "*" + m + "=" + Integer.toString(result));
+				client.sendToClient(message);
+
 			}else{
 				//add code here to send received message to all clients.
 				//The string we received in the message is the message we will send back to all clients subscribed.
